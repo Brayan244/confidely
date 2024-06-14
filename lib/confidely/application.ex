@@ -1,0 +1,36 @@
+defmodule Confidely.Application do
+  # See https://hexdocs.pm/elixir/Application.html
+  # for more information on OTP Applications
+  @moduledoc false
+
+  use Application
+
+  @impl true
+  def start(_type, _args) do
+    children = [
+      ConfidelyWeb.Telemetry,
+      Confidely.Repo,
+      {DNSCluster, query: Application.get_env(:confidely, :dns_cluster_query) || :ignore},
+      {Phoenix.PubSub, name: Confidely.PubSub},
+      # Start the Finch HTTP client for sending emails
+      {Finch, name: Confidely.Finch},
+      # Start a worker by calling: Confidely.Worker.start_link(arg)
+      # {Confidely.Worker, arg},
+      # Start to serve requests, typically the last entry
+      ConfidelyWeb.Endpoint
+    ]
+
+    # See https://hexdocs.pm/elixir/Supervisor.html
+    # for other strategies and supported options
+    opts = [strategy: :one_for_one, name: Confidely.Supervisor]
+    Supervisor.start_link(children, opts)
+  end
+
+  # Tell Phoenix to update the endpoint configuration
+  # whenever the application is updated.
+  @impl true
+  def config_change(changed, _new, removed) do
+    ConfidelyWeb.Endpoint.config_change(changed, removed)
+    :ok
+  end
+end
