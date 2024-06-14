@@ -6,6 +6,10 @@ defmodule Confidely.Users.User do
   use Ecto.Schema
   use Pow.Ecto.Schema
 
+  # Import the Pow schema fields for extendings
+  use Pow.Extension.Ecto.Schema,
+    extensions: [PowResetPassword, PowEmailConfirmation, PowInvitation]
+
   schema "users" do
     pow_user_fields()
 

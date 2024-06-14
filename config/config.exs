@@ -64,7 +64,9 @@ config :phoenix, :json_library, Jason
 config :confidely, :pow,
   web_module: ConfidelyWeb,
   user: Confidely.Users.User,
-  repo: Confidely.Repo
+  repo: Confidely.Repo,
+  extensions: [PowResetPassword, PowEmailConfirmation, PowInvitation],
+  controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
