@@ -49,5 +49,6 @@ defmodule ConfidelyWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+  plug Pow.Plug.Session, otp_app: :confidely
   plug ConfidelyWeb.Router
 end
