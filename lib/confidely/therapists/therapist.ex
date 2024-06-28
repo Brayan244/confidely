@@ -18,7 +18,7 @@ defmodule Confidely.Therapists.Therapist do
   def changeset(therapist, attrs) do
     therapist
     |> cast(attrs, [:bio, :user_id])
-    |> validate_required([:bio, :user_id])
+    |> validate_required([:user_id])
     |> assoc_constraint(:user)
   end
 end

@@ -11,18 +11,29 @@ defmodule ConfidelyWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :protected do
+    plug Pow.Plug.RequireAuthenticated, error_handler: ConfidelyWeb.AuthErrorHandler
+  end
+
+  pipeline :not_authenticated do
+    plug Pow.Plug.RequireNotAuthenticated, error_handler: ConfidelyWeb.AuthErrorHandler
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
 
   scope "/" do
-    pipe_through :browser
+    pipe_through [:browser, :not_authenticated]
 
-    pow_routes()
+    get "/signup", ConfidelyWeb.RegistrationController, :new, as: :signup
+    post "/signup", ConfidelyWeb.RegistrationController, :create
+    # get "/login", SessionController, :new, as: :login
+    # post "/login", SessionController, :create
   end
 
   scope "/", ConfidelyWeb do
-    pipe_through :browser
+    pipe_through [:browser, :protected]
 
     get "/", PageController, :home
   end

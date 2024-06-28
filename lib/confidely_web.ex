@@ -21,7 +21,7 @@ defmodule ConfidelyWeb do
 
   def router do
     quote do
-      use Phoenix.Router, helpers: false
+      use Phoenix.Router, helpers: true
 
       # Import common connection and controller functions to use in pipelines
       import Plug.Conn
@@ -44,6 +44,7 @@ defmodule ConfidelyWeb do
 
       import Plug.Conn
       import ConfidelyWeb.Gettext
+      alias ConfidelyWeb.Router.Helpers, as: Routes
 
       unquote(verified_routes())
     end

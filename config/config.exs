@@ -62,6 +62,7 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :confidely, :pow,
+  web_module: ConfidelyWeb,
   user: Confidely.Users.User,
   repo: Confidely.Repo
 
