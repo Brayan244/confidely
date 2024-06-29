@@ -7,8 +7,9 @@ defmodule ConfidelyWeb.RegistrationController do
 
   def new(conn, _params) do
     changeset = Pow.Plug.change_user(conn)
+    action = Routes.registration_path(conn, :create)
 
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, action: action)
   end
 
   def create(conn, %{"user" => user_params}) do
