@@ -28,8 +28,14 @@ defmodule ConfidelyWeb.Router do
 
     get "/signup", ConfidelyWeb.RegistrationController, :new, as: :signup
     post "/signup", ConfidelyWeb.RegistrationController, :create
-    # get "/login", SessionController, :new, as: :login
-    # post "/login", SessionController, :create
+    get "/login", ConfidelyWeb.SessionController, :new, as: :login
+    post "/login", ConfidelyWeb.SessionController, :create
+  end
+
+  scope "/" do
+    pipe_through [:browser, :protected]
+
+    delete "/logout", ConfidelyWeb.SessionController, :delete, as: :logout
   end
 
   scope "/", ConfidelyWeb do
